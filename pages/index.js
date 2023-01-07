@@ -1,7 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useState } from "react";
-import buildspaceLogo from "../assets/buildspace-logo.png";
 
 const Home = () => {
   const [userInput, setUserInput] = useState("");
@@ -11,20 +9,26 @@ const Home = () => {
   const callGenerateEndpoint = async () => {
     setIsGenerating(true);
 
-    console.log("Calling OpenAI...");
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userInput }),
-    });
+    try {
+      console.log("Calling OpenAI...");
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userInput }),
+      });
 
-    const data = await response.json();
-    const { output } = data;
-    console.log("OpenAI replied...", output.text);
+      const data = await response.json();
+      const { output } = data;
+      console.log("OpenAI replied...", output.text);
 
-    setApiOutput(`${output.text}`);
+      setApiOutput(`${output.text}`);
+    } catch (error) {
+      console.log(error);
+      alert("Oops! OpenAI is busy - please refresh the page and try again!");
+    }
+
     setIsGenerating(false);
   };
 
