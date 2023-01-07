@@ -66,7 +66,7 @@ const Home = () => {
             >
               <div className="generate">
                 {isGenerating ? (
-                  <span class="loader"></span>
+                  <span className="loader"></span>
                 ) : (
                   <p>Generate Recipe!</p>
                 )}
